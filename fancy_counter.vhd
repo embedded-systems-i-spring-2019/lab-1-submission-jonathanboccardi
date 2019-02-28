@@ -16,7 +16,7 @@ entity fancy_counter is
     );
 end fancy_counter;
 
-architecture Behavioral of fancy_counter is
+architecture beh of fancy_counter is
     signal count    : std_logic_vector(3 downto 0) := (others => '0');
     signal value    : std_logic_vector(3 downto 0) := (others => '0');
     signal direction: std_logic := '0';
@@ -24,28 +24,28 @@ begin
 
     process(clk, clk_en) begin
         if (en = '1') then
-            if (rst = '1') then
-                count <= (others => '0');
-            elsif (rising_edge(clk)) then
+            if (rising_edge(clk)) then
                 if (rst = '1') then
                     count <= (others => '0');
-                elsif (ld = '1') then
-                    value <= val;
-                elsif (updn = '1') then
-                    direction <= dir;
-                    if (dir = '1') then
-                        count <= std_logic_vector(unsigned(count) + 1);
-                        cnt <= count;
-                        if (unsigned(count) = unsigned(value)) then
-                            count <= (others => '0');
+                elsif (clk_en = '1') then
+                    if (ld = '1') then
+                        value <= val;
+                    elsif (updn = '1') then
+                        direction <= dir;
+                        if (dir = '1') then
+                            count <= std_logic_vector(unsigned(count) + 1);
                             cnt <= count;
-                        end if;
-                    else
-                        count <= std_logic_vector(unsigned(count) - 1);
-                        cnt <= count;
-                        if (unsigned(count) = "0000") then
-                            count <= value;
+                            if (unsigned(count) = unsigned(value)) then
+                                count <= (others => '0');
+                                cnt <= count;
+                            end if;
+                        else
+                            count <= std_logic_vector(unsigned(count) - 1);
                             cnt <= count;
+                            if (unsigned(count) = "0000") then
+                                count <= value;
+                                cnt <= count;
+                            end if;
                         end if;
                     end if;
                 end if;
@@ -53,4 +53,4 @@ begin
         end if;
     end process;
 
-end Behavioral;
+end beh;
