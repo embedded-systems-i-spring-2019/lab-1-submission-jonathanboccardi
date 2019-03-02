@@ -16,13 +16,11 @@ begin
     divider: process(clk) begin
         if (rising_edge(clk)) then   --rising edge means 1 clock cycle
             count <= std_logic_vector(unsigned(count) + 1 );    --add a clock cycle
-            if (unsigned(count) < 31250000) then                --half the clock cycle will be high
+            if (unsigned(count) = 62500000) then             -- pulse when half of clock cycle reached
                 div <= '1';
-            elsif (unsigned(count) < 62500000) then             -- the other half will be low
-                div <= '0';
-            else                    --when count = 62500000     -- reset count and flip div back to high
                 count <= std_logic_vector(to_unsigned(0,26));
-                div <= '1';
+            else                    --stay low
+                div <= '0';
             end if;
         end if;
     end process divider;

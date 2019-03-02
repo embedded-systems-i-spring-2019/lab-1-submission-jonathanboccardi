@@ -27,6 +27,7 @@ begin
             if (rising_edge(clk)) then
                 if (rst = '1') then
                     count <= (others => '0');
+                    cnt   <= count;
                 elsif (clk_en = '1') then
                     if (ld = '1') then
                         value <= val;

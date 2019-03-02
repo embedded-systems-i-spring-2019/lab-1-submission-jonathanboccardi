@@ -18,7 +18,7 @@ architecture beh of divider_top is
     end component;
     
     signal led  : std_logic := '0';
-    signal div  : std_logic;
+    signal div  : std_logic := '0';
 begin
 
     assign: clock_div port map(clk => clk, div => div);
